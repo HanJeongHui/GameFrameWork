@@ -37,6 +37,7 @@ public:
 	}
 	bool running() { return m_bRunning; }
 	SDL_Renderer* getRenderer() const { return m_pRenderer; }
+	void quit();
 private:
 	SDL_Window * m_pWindow;
 	SDL_Renderer* m_pRenderer;
