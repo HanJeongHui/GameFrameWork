@@ -1,13 +1,12 @@
 #include "Game.h"
 #include <SDL_image.h>
 #include <iostream>
-#include <SDL_keycode.h>
 
-
-
+Game* Game::s_pInstance = 0;
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
+
 	if (SDL_Init(SDL_INIT_EVERYTHING) >= 0)
 	{
 		m_pWindow = SDL_CreateWindow(title, xpos, ypos, width, height,
@@ -18,22 +17,13 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		}
 
 		m_bRunning = true;
-	
-		if (!TheTextureManager::Instance()->load("assets/animate-alpha.png", "animate", m_pRenderer))
+		if (!TheTextureManager::Instance()->load("assets/animate.png", "animate", m_pRenderer))
 		{
 			return false;
 		}
-		m_go = new GameObject();
-		m_player = new Player();
-		m_enemy = new Enemy();
-
-		m_go->load(100, 100, 128, 82, "animate");
-		m_player->load(300, 300, 128, 82, "animate");
-		m_enemy->load(0, 0, 128, 82, "animate");
-
-		m_gameObjects.push_back(m_go);
-		m_gameObjects.push_back(m_player);
-		m_gameObjects.push_back(m_enemy);
+		
+		m_gameObjects.push_back(new Player(new LoaderParams(100, 100, 128, 82, "animate")));
+		m_gameObjects.push_back(new Enemy(new LoaderParams(300, 300, 128, 82, "animate")));
 
 	}
 	else {
@@ -45,16 +35,18 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 void Game::render()
 {
-SDL_RenderClear(m_pRenderer); 
-for (std::vector<GameObject*>::size_type i = 0;
-	i != m_gameObjects.size(); i++)
-{
-	m_gameObjects[i]->draw(m_pRenderer);
-}
-SDL_RenderPresent(m_pRenderer);
+	SDL_RenderClear(m_pRenderer);
+	for (std::vector<GameObject*>::size_type i = 0;
+		i != m_gameObjects.size(); i++)
+	{
+		m_gameObjects[i]->draw();
+	}
+	SDL_SetRenderDrawColor(m_pRenderer, 50, 55, 55, 255);
+	SDL_RenderPresent(m_pRenderer);
 }
 void Game::update()
 {
+	m_currentFrame = int(((SDL_GetTicks() / 100) % 6));
 	for (std::vector<GameObject*>::size_type i = 0;
 		i != m_gameObjects.size(); i++)
 	{
@@ -84,4 +76,9 @@ void Game::handleEvents()
 			break;
 		}
 	}
+}
+
+Game::Game()
+{
+
 }
