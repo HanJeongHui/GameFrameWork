@@ -1,5 +1,6 @@
-﻿#include<math.h>
-#include<iostream>
+#pragma once
+
+#include<math.h>
 
 class Vector2D
 {
@@ -9,6 +10,7 @@ public:
 	float getY() { return m_y; }
 	void setX(float x) { m_x = x; }
 	void setY(float y) { m_y = y; }
+
 	Vector2D operator+(const Vector2D& v2) const
 	{
 		return Vector2D(m_x + v2.m_x, m_y + v2.m_y);
@@ -32,6 +34,7 @@ public:
 		m_y *= scalar;
 		return *this;
 	}
+
 	Vector2D operator-(const Vector2D& v2) const
 	{
 		return Vector2D(m_x - v2.m_x, m_y - v2.m_y);
@@ -55,19 +58,21 @@ public:
 		m_y /= scalar;
 		return *this;
 	}
+
 	float length() { return sqrt(m_x * m_x + m_y * m_y); }
 
 
 	void normalize()
 	{
 		float l = length();
-		if (l > 0) // we never want to attempt to divide by 0
+		if (l > 0)
 		{
 			(*this) *= 1 / l;
 		}
 	}
-	
 private:
 	float m_x;
 	float m_y;
+
+
 };

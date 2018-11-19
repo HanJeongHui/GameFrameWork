@@ -1,6 +1,7 @@
 #pragma once
-#include <iostream>
-#include "SDLGameObjcet.h"
+
+#include "GameObject.h"
+#include "SDLGameObject.h"
 
 class Player : public SDLGameObject
 {
@@ -9,7 +10,7 @@ public:
 	virtual void draw();
 	virtual void update();
 	virtual void clean();
+
 private:
 	void handleInput();
 };
-
