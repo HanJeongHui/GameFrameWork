@@ -1,5 +1,4 @@
 #pragma once
-
 #include "SDL.h"
 #include "vector"
 #include "Vector2D.h"
@@ -30,19 +29,14 @@ public:
 		return m_mousePosition;
 	}
 
-
-
 private:
 	InputHandler();
 	~InputHandler() {}
-
+	const Uint8* m_keystates;
 
 	Vector2D* m_mousePosition;
 	std::vector<bool> m_mouseButtonStates;
 	static InputHandler* s_pInstance;
-	const Uint8* m_keystates;
-
-
 };
 
 typedef InputHandler TheInputHandler;
